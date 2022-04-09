@@ -8,7 +8,7 @@ $model = new Model($database);
 
 $connection = $database->openConnection();
 
-$students = $model->putStudents();
+$students = $model->getStudentsFromDatabase();
 
 foreach ($students as $student) {
     print_r($student);

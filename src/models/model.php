@@ -16,7 +16,7 @@ class Model
     }
 
     // @return array of students
-    public function putStudents()
+    public function getStudentsFromDatabase()
     {
         $connection = $this->database->openConnection();
 

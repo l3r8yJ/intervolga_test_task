@@ -1,5 +1,4 @@
 <?php
-
 class Database
 {
     private $userName = 'root', $password = 'root', $host = '127.0.0.1', $name = 'test_task', $port = '8889';
