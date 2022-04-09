@@ -4,7 +4,7 @@ class Model
 {
     private $database;
 
-    // @param $database : Database
+    // @param Database $database
     public function __construct($database)
     {
         if ($database == null) {
