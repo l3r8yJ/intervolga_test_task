@@ -1,5 +1,4 @@
 <?php
-
 class Model
 {
     private $database;
@@ -18,31 +17,57 @@ class Model
     // @return array of students
     public function getStudentsFromDatabase()
     {
-        $students = array();
-        $connection = $this->database->openConnection();
+        $connection = $this->database->getConnection();
+
         $query = "SELECT * FROM students ORDER BY id;";
-        $result = $this->queryExecute($query, $connection);
+        $students = $this->getQueryResultAsArray($query, $connection);
 
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            $students[] = $row;
-        }
-
-        $this->database->closeConnection($connection);
+        $this->database->closeConnection();
 
         return $students;
+    }
+
+    public function FindStudentsByName($name)
+    {
+        $connection = $this->database->getConnection();
+        $query = "SELECT * FROM students WHERE name = '$name';";
+
     }
 // TODO: funcs for interactions with database
 //
 // find, insert, create, update, delete etc
 //
 
+    // @param string $query
+    // @param PDO $connection
+    private function getQueryResultAsArray($query, $connection)
+    {
+        $result = array();
+        $resultFromConnectionQuery = $this->queryExecute($query, $connection);
+
+        while ($row = $resultFromConnectionQuery->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = $row;
+        }
+
+        $this->database->closeConnection();
+
+        return $result;
+    }
+
 //  @param String $query
 //  @param PDO $connection
 //  @return mixed
-    private function queryExecute($query, $connection)
+//  @throws QueryException
+    private function queryExecute($query, $connection, $params = array() || null)
     {
         try {
-            return $connection->query($query);
+            $statement = $connection->prepare($query);
+
+            if ($params == null) {
+                $statement->execute();
+            }
+
+            return $statement;
         } catch (Exception $e) {
             die("An error in the query:\n" . $e->getMessage());
         }

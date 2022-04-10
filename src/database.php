@@ -5,18 +5,20 @@ class Database
 
     // @return PDO
     // @throws PDOException
-    public function openConnection()
+    public function getConnection()
     {
         try {
             return new PDO("mysql:host=$this->host;port=$this->port;dbname=$this->name", $this->userName, $this->password);
         } catch (PDOException $e) {
-            $e->getMessage();
+            die("Connection failed: " . $e->getMessage());
         }
     }
 
-    // @param PDO $connection
-    public function closeConnection($connection)
+    // idk what would be better, create a @param PDO $connection
+    // or
+    // make this method close self connection, - in current version this variant.
+    public function closeConnection()
     {
-        $connection = null;
+        $this->connection = null;
     }
 }

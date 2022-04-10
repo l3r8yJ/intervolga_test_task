@@ -5,11 +5,10 @@ require_once './src/models/model.php';
 
 $database = new Database();
 $model = new Model($database);
+$controller = new Controller($model);
 
-$connection = $database->openConnection();
+$studs = $model->getStudentsFromDatabase();
 
-$students = $model->getStudentsFromDatabase();
-
-foreach ($students as $student) {
-    print_r($student);
+foreach ($studs as $stud) {
+    echo "<li>$stud[id] $stud[name] $stud[surname]</li>" . "<img src=\"$stud[photo]\" style=\"width=10%; height=10%;\">";
 }
