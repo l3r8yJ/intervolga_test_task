@@ -7,8 +7,9 @@ $database = new Database();
 $model = new Model($database);
 $controller = new Controller($model);
 
-$studs = $model->getStudentsFromDatabase();
+$studs = $model->findStudentsByName("First");
+var_dump($studs);
 
 foreach ($studs as $stud) {
-    echo "<li>$stud[id] $stud[name] $stud[surname]</li>" . "<img src=\"$stud[photo]\" style=\"width=10%; height=10%;\">";
+    echo "<li>$stud[id] $stud[name] $stud[surname]</li>";
 }

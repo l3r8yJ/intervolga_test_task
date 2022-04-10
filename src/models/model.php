@@ -27,11 +27,19 @@ class Model
         return $students;
     }
 
-    public function FindStudentsByName($name)
+    public function findStudentsByName($name)
     {
         $connection = $this->database->getConnection();
-        $query = "SELECT * FROM students WHERE name = '$name';";
+        $query = 'SELECT * FROM students WHERE name = :name;';
 
+        $params = [
+            'name' => $name,
+        ];
+
+        $namedStudents = $this->getQueryResultAsArray($query, $connection, $params);
+        $this->database->closeConnection();
+
+        return $namedStudents;
     }
 // TODO: funcs for interactions with database
 //
@@ -48,28 +56,23 @@ class Model
         while ($row = $resultFromConnectionQuery->fetch(PDO::FETCH_ASSOC)) {
             $result[] = $row;
         }
-
-        $this->database->closeConnection();
-
         return $result;
     }
 
 //  @param String $query
 //  @param PDO $connection
-//  @return mixed
+//  @param nullOrArray $params
 //  @throws QueryException
-    private function queryExecute($query, $connection, $params = array() || null)
+    private function queryExecute($query, $connection, $params = array())
     {
-        try {
-            $statement = $connection->prepare($query);
+        $statement = $connection->prepare($query);
 
-            if ($params == null) {
-                $statement->execute();
-            }
-
-            return $statement;
-        } catch (Exception $e) {
-            die("An error in the query:\n" . $e->getMessage());
+        if ($params == null) {
+            $statement->execute();
+        } else {
+            $statement->execute(array_keys($params));
         }
+
+        return $statement;
     }
 }
