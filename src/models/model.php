@@ -20,7 +20,7 @@ class Model
         $connection = $this->database->getConnection();
 
         $query = "SELECT * FROM students ORDER BY id;";
-        $students = $this->getQueryResultAsArray($query, $connection);
+        $students = $this->getQueryResultAsArray($query, $connection, null);
 
         $this->database->closeConnection();
 
@@ -28,23 +28,25 @@ class Model
     }
 
     // @param string $nameOrSurname
+    // @return array
     public function findStudentsByName($nameOrSurname)
     {
         $connection = $this->database->getConnection();
         $query = "SELECT * FROM students WHERE name LIKE '%$nameOrSurname%' OR surname LIKE '$nameOrSurname%';";
-        $namedStudents = $this->getQueryResultAsArray($query, $connection);
+        $namedStudents = $this->getQueryResultAsArray($query, $connection, null);
         $this->database->closeConnection();
 
         return $namedStudents;
     }
-
+    // @param string $name
+    // @param string $surname
+    // @param date $birthday
+    // @param string $photo
     public function createStudent($name, $surname, $birthday, $photo)
     {
         $connection = $this->database->getConnection();
         $query = "INSERT INTO `students` (`name`, `surname`, `birthday`, `photo`) VALUES (?, ?, ?, ?);";
-        $statement = $connection->prepare($query);
-        $statement->execute([$name, $surname, $birthday, $photo]);
-
+        $this->queryExecute($query, $connection, [$name, $surname, $birthday, $photo]);
         $this->database->closeConnection();
     }
 
@@ -55,10 +57,10 @@ class Model
 
     // @param string $query
     // @param PDO $connection
-    private function getQueryResultAsArray($query, $connection)
+    private function getQueryResultAsArray($query, $connection, $params)
     {
         $result = array();
-        $resultFromConnectionQuery = $this->queryExecute($query, $connection);
+        $resultFromConnectionQuery = $this->queryExecute($query, $connection, $params);
 
         while ($row = $resultFromConnectionQuery->fetch(PDO::FETCH_ASSOC)) {
             $result[] = $row;
@@ -70,10 +72,14 @@ class Model
 //  @param PDO $connection
 //  @param nullOrArray $params
 //  @throws QueryException
-    private function queryExecute($query, $connection)
+    private function queryExecute($query, $connection, $params)
     {
         $statement = $connection->prepare($query);
-        $statement->execute();
+        if ($params == null) {
+            $statement->execute();
+        } else {
+            $statement->execute($params);
+        }
 
         return $statement;
     }

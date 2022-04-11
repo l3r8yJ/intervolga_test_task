@@ -7,7 +7,7 @@ $database = new Database("test_task");
 $model = new Model($database);
 $controller = new Controller($model);
 
-$model->createStudent("InsName", "InsSurname", "1999-08-12", "link");
+// $model->createStudent("InsNameParam", "InsSurnameParam", "2003-02-11", "linkParam");
 $studs = $model->getStudentsFromDatabase();
 var_dump($studs);
 
