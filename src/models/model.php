@@ -27,23 +27,30 @@ class Model
         return $students;
     }
 
-    public function findStudentsByName($name)
+    // @param string $nameOrSurname
+    public function findStudentsByName($nameOrSurname)
     {
         $connection = $this->database->getConnection();
-        $query = 'SELECT * FROM students WHERE name = :name;';
-
-        $params = [
-            'name' => $name,
-        ];
-
-        $namedStudents = $this->getQueryResultAsArray($query, $connection, $params);
+        $query = "SELECT * FROM students WHERE name LIKE '%$nameOrSurname%' OR surname LIKE '$nameOrSurname%';";
+        $namedStudents = $this->getQueryResultAsArray($query, $connection);
         $this->database->closeConnection();
 
         return $namedStudents;
     }
+
+    public function createStudent($name, $surname, $birthday, $photo)
+    {
+        $connection = $this->database->getConnection();
+        $query = "INSERT INTO `students` (`name`, `surname`, `birthday`, `photo`) VALUES (?, ?, ?, ?);";
+        $statement = $connection->prepare($query);
+        $statement->execute([$name, $surname, $birthday, $photo]);
+
+        $this->database->closeConnection();
+    }
+
 // TODO: funcs for interactions with database
 //
-// find, insert, create, update, delete etc
+// //find// , update, create, update, delete etc
 //
 
     // @param string $query
@@ -63,15 +70,10 @@ class Model
 //  @param PDO $connection
 //  @param nullOrArray $params
 //  @throws QueryException
-    private function queryExecute($query, $connection, $params = array())
+    private function queryExecute($query, $connection)
     {
         $statement = $connection->prepare($query);
-
-        if ($params == null) {
-            $statement->execute();
-        } else {
-            $statement->execute(array_keys($params));
-        }
+        $statement->execute();
 
         return $statement;
     }
