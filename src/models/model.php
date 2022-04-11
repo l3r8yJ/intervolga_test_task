@@ -50,6 +50,21 @@ class Model
         $this->database->closeConnection();
     }
 
+    public function updateStudentById($id, $name, $surname, $birthday, $photo)
+    {
+        $connection = $this->database->getConnection();
+        $query = "UPDATE `students` SET `name` = ?, `surname` = ?, `birthday` = ?, `photo` = ? WHERE `id` = ?";
+        $this->queryExecute($query, $connection, [$name, $surname, $birthday, $photo, $id]);
+        $this->database->closeConnection();
+    }
+
+    public function deleteById($id)
+    {
+        $connection = $this->database->getConnection();
+        $query = "DELETE FROM `students` WHERE `id` = $id";
+        $this->queryExecute($query, $connection, null);
+        $this->database->closeConnection();
+    }
 // TODO: funcs for interactions with database
 //
 // //find// , update, create, update, delete etc
