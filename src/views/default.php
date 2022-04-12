@@ -13,26 +13,26 @@
             <th>Surname</th>
             <th>Birthday</th>
             <th>Photo</th>
-            <th>
-                <form name="search" method="get" action="index.php">
-                    <input type="text" placeholder="Type name or surname." name="nameOrSurname">
-                    <input type="submit" value="Search">
-                </form>
-            </th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
-        <?php foreach ($studs as $stud): ?>
+        <?php foreach ($students as $student): ?>
         <tr>
-            <td><?=$stud['id']?></td>
-            <td><?=$stud['name']?></td>
-            <td><?=$stud['surname']?></td>
-            <td><?=$stud['birthday']?></td>
-            <td><img class="img-responsive" src="<?=$stud['photo']?>"></td>
+            <td><?=$student['id']?></td>
+            <td><?=$student['name']?></td>
+            <td><?=$student['surname']?></td>
+            <td><?=$student['birthday']?></td>
+            <td><img class="img-responsive" src="<?=$student['photo']?>"></td>
             <td><a link href="">Edit</a></td>
             <td><a link href="">Delete</a></td>
         </tr>
         <?php endforeach?>
     </table>
 	</div>
+    <br>
+    <div class="create-container">
+        <a href="#"><button class="style">Create</button></a>
+    </div>
     <br>
 <?php $root = ob_get_clean()?>
 

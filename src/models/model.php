@@ -97,9 +97,4 @@ class Model
 
         return $statement;
     }
-
-    private function prepareField($field)
-    {
-        $field = htmlspecialchars($field);
-    }
 }
