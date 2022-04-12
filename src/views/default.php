@@ -24,16 +24,19 @@
             <td><?=$student['birthday']?></td>
             <td><img class="img-responsive" src="<?=$student['photo']?>"></td>
             <td><a link href="">Edit</a></td>
-            <td><a link href="">Delete</a></td>
+            <td>
+                <a link href="">
+                    <img class="icon" src="../images/icons/delete.png">
+                </a>
+            </td>
         </tr>
         <?php endforeach?>
     </table>
 	</div>
     <br>
     <div class="create-container">
-        <a href="#"><button class="style">Create</button></a>
+        <a href="../src/views/form.php"><button class="style">Add</button></a>
     </div>
     <br>
-<?php $root = ob_get_clean()?>
 
 <?php include 'preload.php'?>

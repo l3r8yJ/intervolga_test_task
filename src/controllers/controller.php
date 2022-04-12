@@ -15,11 +15,13 @@ class Controller
         return $this->model->getStudentsFromDatabase();
     }
 
-    // @param string $name
-    public function search($name)
+    public function create($name, $surname, $birthday, $photo)
     {
-        if ($name) {
-            return $this->model->findByName($name);
+        if (isset($_POST)) {
+            $this->model->createStudent($name, $surname, $birthday, $photo);
+            header("Location: http://localhost/index.php");
+        } else {
+            require $_SERVER['DOCUMENT_ROOT'] . '/src/views/form.php';
         }
     }
 }
