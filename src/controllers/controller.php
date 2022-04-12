@@ -9,4 +9,17 @@ class Controller
     {
         $this->model = $model;
     }
+
+    public function getAllStudents()
+    {
+        return $this->model->getStudentsFromDatabase();
+    }
+
+    // @param string $name
+    public function search($name)
+    {
+        if ($name) {
+            return $this->model->findByName($name);
+        }
+    }
 }

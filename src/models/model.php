@@ -52,6 +52,7 @@ class Model
 
     public function updateStudentById($id, $name, $surname, $birthday, $photo)
     {
+        $id = (int) $id;
         $connection = $this->database->getConnection();
         $query = "UPDATE `students` SET `name` = ?, `surname` = ?, `birthday` = ?, `photo` = ? WHERE `id` = ?";
         $this->queryExecute($query, $connection, [$name, $surname, $birthday, $photo, $id]);
@@ -60,6 +61,8 @@ class Model
 
     public function deleteById($id)
     {
+        $id = (int) $id;
+
         $connection = $this->database->getConnection();
         $query = "DELETE FROM `students` WHERE `id` = $id";
         $this->queryExecute($query, $connection, null);
@@ -93,5 +96,10 @@ class Model
         }
 
         return $statement;
+    }
+
+    private function prepareField($field)
+    {
+        $field = htmlspecialchars($field);
     }
 }
