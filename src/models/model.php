@@ -27,6 +27,20 @@ class Model
         return $students;
     }
 
+    // @param int $id
+    // @return array
+    public function getStudentById($id)
+    {
+        $id = (int) $id;
+
+        $connection = $this->database->getConnection();
+        $query = "SELECT * FROM students WHERE id = $id";
+        $student = $this->getQueryResultAsArray($query, $connection, null);
+        $this->database->closeConnection();
+
+        return $student;
+    }
+
     // @param string $nameOrSurname
     // @return array
     public function findStudentsByName($nameOrSurname)
@@ -38,6 +52,7 @@ class Model
 
         return $namedStudents;
     }
+
     // @param string $name
     // @param string $surname
     // @param date $birthday
@@ -50,6 +65,11 @@ class Model
         $this->database->closeConnection();
     }
 
+    // @param int $id
+    // @param string $name
+    // @param string $surname
+    // @param date $birthday
+    // @param string $photo
     public function updateStudentById($id, $name, $surname, $birthday, $photo)
     {
         $id = (int) $id;
@@ -59,6 +79,7 @@ class Model
         $this->database->closeConnection();
     }
 
+    // @param int $id
     public function deleteById($id)
     {
         $id = (int) $id;

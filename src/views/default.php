@@ -22,8 +22,12 @@
             <td><?=$student['name']?></td>
             <td><?=$student['surname']?></td>
             <td><?=$student['birthday']?></td>
-            <td><img class="img-responsive" src="<?=$student['photo']?>"></td>
-            <td><a link href="">Edit</a></td>
+            <td>
+                <img class="img-responsive" src="<?=$student['photo']?>">
+            </td>
+            <td>
+                <a link href="index.php?action=edit&id=<?php echo $student['id']; ?>">Edit</a>
+            </td>
             <td>
                 <a link href="">
                     <img class="icon" src="../images/icons/delete.png">
