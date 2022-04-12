@@ -28,7 +28,6 @@
     </table>
 	</div>
     <br>
-    <a href="http://localhost/pdomvc/index.php/music/create" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Tambah Data</a>
-<!--<?php //$root = ob_get_clean()?>--!/>
+<?php $root = ob_get_clean()?>
 
-<?php include 'view/template.php'?>
+<?php include 'view/preload.php'?>

@@ -65,10 +65,6 @@ class Model
         $this->queryExecute($query, $connection, null);
         $this->database->closeConnection();
     }
-// TODO: funcs for interactions with database
-//
-// //find// , update, create, update, delete etc
-//
 
     // @param string $query
     // @param PDO $connection
