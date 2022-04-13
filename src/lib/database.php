@@ -16,12 +16,12 @@ class Database
         $this->name = $name;
     }
 
-    protected function openConnection()
+    public function openConnection()
     {
         R::setup("mysql:host=$this->host;port=$this->port;dbname=$this->name", $this->userName, $this->password);
     }
 
-    protected function closeConnection()
+    public function closeConnection()
     {
         R::close();
     }
