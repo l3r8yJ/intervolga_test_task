@@ -9,7 +9,7 @@
   <input type="file" name="photo">
   <br>
   <button type="submit">Create</button>
-  <a link href="../../index.php">
-    Back
+  <a link href="#">
+    <button>Back</button>
   </a>
 </form>

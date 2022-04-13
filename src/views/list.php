@@ -26,7 +26,7 @@
                 <img class="img-responsive" src="<?=$student['photo']?>">
             </td>
             <td>
-                <a link href="index.php?action=edit&id=<?php echo $student['id']; ?>">Edit</a>
+                <a link href="/src/views/edit.php?id=<?=$student['id']?>">Edit</a>
             </td>
             <td>
                 <a link href="">

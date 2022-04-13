@@ -10,8 +10,3 @@
     <link rel="stylesheet" href="../../public/styles/css/button.css">
   </head>
   <body>
-    <div class="root">
-        <?=$root?>
-    </div>
-  </body>
-</html>
