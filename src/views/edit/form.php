@@ -46,4 +46,3 @@ if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday'
 <?php
 include "../footer.php";
 ?>
-
