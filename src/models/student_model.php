@@ -1,23 +1,8 @@
 <?php
 
-class StudentModel
+require $_SERVER['DOCUMENT_ROOT'] . '/src/lib/database.php';
+class StudentModel extends Database
 {
-    private $database;
-
-    /**
-     * __construct
-     *
-     * @param Database $database
-     */
-    public function __construct($database)
-    {
-        if ($database instanceof Database) {
-            $this->database = $database;
-        } else {
-            throw new \InvalidArgumentException();
-        }
-    }
-
     /**
      * readAllStudents
      *
@@ -25,24 +10,91 @@ class StudentModel
      */
     public function readAllStudents()
     {
-        $this->database->openConnection();
+        $this->openConnection();
 
-        return R::findAll('students');
+        $students = R::findAll('students');
 
-        $this->database->closeConnection();
+        $this->closeConnection();
+
+        return $students;
     }
 
-    public function writeStudent($params)
+    /**
+     * writeStudent
+     *
+     * @param entity $newStudent
+     * @return int $id last inserted id
+     */
+    public function createStudent($params)
     {
-        $this->database->openConnection();
-        $student = R::dispense('students');
+        $this->openConnection();
 
+        $student = R::dispense('students');
+        $this->setStudent($student, $params);
+        $id = R::store($student);
+
+        $this->closeConnection();
+
+        return $id;
+    }
+
+    /**
+     * readStudentById
+     *
+     * @param int $id
+     * @return array/entity
+     */
+    public function readStudentById($id)
+    {
+        $this->openConnection();
+
+        $student = R::findOne('students', 'id = :id', [':id' => (int) $id]);
+
+        $this->closeConnection();
+
+        return $student;
+    }
+
+    /**
+     * rewriteStudent
+     *
+     * @param int $id
+     * @param entity $newStudent
+     * @return void
+     */
+    public function updateStudent($id, $newStudent)
+    {
+        $this->openConnection();
+
+        $student = R::load('students', (int) $id);
+        $student = $newStudent;
+        R::store($student);
+
+        $this->closeConnection();
+    }
+
+    public function deleteStudent($id)
+    {
+        $this->openConnection();
+
+        $student = R::load('students', (int) $id);
+        R::trash($student);
+
+        $this->closeConnection();
+    }
+
+    /**
+     * setStudent
+     *
+     * @param entity $student current student
+     * @param array $params new params [:name, :surname,: birthday, :photo]
+     * @return void
+     */
+    private function setStudent($student, $params)
+    {
         $student->name = $params['name'];
         $student->surname = $params['surname'];
         $student->birthday = $params['birthday'];
         $student->photo = $params['photo'];
-
-        R::store($student);
-        $this->database->closeConnection();
     }
 }
