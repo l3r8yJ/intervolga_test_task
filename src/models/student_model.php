@@ -14,7 +14,7 @@ class StudentModel
         if ($database instanceof Database) {
             $this->database = $database;
         } else {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
     }
 
@@ -40,19 +40,69 @@ class StudentModel
     }
 
     /**
+     * readStudentById
+     *
+     * @param int $id
+     * @return array|Object
+     */
+    public function readStudentById(int $id)
+    {
+        $student = R::findOne('students', 'id = ?', [$id]);
+
+        return $student;
+    }
+
+    /**
      * writeStudent
      *
      * @param array $params [name, surname, birthday, photo]
      * @return void
      */
-    public function createStudent($params)
+    public function createStudent(array $params)
     {
         $student = R::dispense('students');
         $student = $this->setStudent($student, $params);
         R::store($student);
     }
 
-    private function setStudent($student, $params)
+    /**
+     * deleteStudent
+     *
+     * @param int $id
+     */
+    public function deleteStudent(int $id)
+    {
+        $student = R::load('students', $id);
+
+        R::trash($student);
+    }
+
+    /**
+     * rewriteStudent
+     *
+     * @param int $id
+     * @param array $params
+     * @return void
+     */
+    public function updateStudent(int $id, array $params)
+    {
+        $student = R::findOne('students', 'id = ?', [$id]);
+
+        $student->name = $params['name'];
+        $student->surname = $params['surname'];
+        $student->birthday = $params['birthday'];
+
+        R::store($student);
+    }
+
+    /**
+     * setStudent
+     *
+     * @param Object|array $student
+     * @param array $params
+     * @return void
+     */
+    private function setStudent($student, array $params)
     {
         $student->name = $params['name'];
         $student->surname = $params['surname'];

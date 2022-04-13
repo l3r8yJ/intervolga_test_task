@@ -10,3 +10,7 @@
     <link rel="stylesheet" href="../../public/styles/css/button.css">
   </head>
   <body>
+
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/src/views/list.php';
+?>
