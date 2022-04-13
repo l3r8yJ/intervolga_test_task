@@ -9,4 +9,3 @@ $_POST['model'] = $model;
 $list = $model->readAllStudents();
 
 include $_SERVER['DOCUMENT_ROOT'] . '/src/views/header.php';
-// comment for test commit
