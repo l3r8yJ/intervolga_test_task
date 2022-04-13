@@ -26,23 +26,47 @@ if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday'
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../../public/styles/css/form.css">
+  <title>Edit</title>
+</head>
+<body>
 
-<form action="" method="post">
-  <p>Name: </p>
-  <input type="text" name="name" value="<?=$currentStudent->name;?>"></input>
-  <p>Surname: </p>
-  <input type="text" name="surname" value="<?=$currentStudent->surname;?>"></input>
-  <p>Birthday: </p>
-  <input type="date" name="birthday"value="<?=$currentStudent->birthday;?>"></input>
-  <p>Your photo: </p>
-  <input type="file" name="photo">
-  <br>
-  <button type="submit">Update</button>
-  <a link href="#">
-    <button>Back</button>
-  </a>
-</form>
+<div class="form">
 
-<?php
-include "../footer.php";
-?>
+  <div class="title">Hi!</div>
+  <div class="subtitle">Let's add some students!</div>
+
+  <form action="" method="post">
+
+      <div class="input-container ic1">
+        <input id="name" name=name class="input" type="text" placeholder=" " value="<?=$currentStudent->name;?>"/>
+        <div class="cut"></div>
+        <label for="name" class="placeholder">First name</label>
+      </div>
+
+      <div class="input-container ic2">
+        <input id="surname" name="surname" class="input" type="text" placeholder=" " value="<?=$currentStudent->surname;?>" />
+        <div class="cut"></div>
+        <label for="surname" class="placeholder">Last name</label>
+      </div>
+
+    <div class="cut"></div>
+    <div class="subtitle">Birthday:</div>
+    <input type="date" name="birthday" class="datepicker-input" value="<?=$currentStudent->birthday;?>">
+
+    <div class="subtitle">Photo</div>
+    <input type="file" name="photo">
+    <br>
+    <button type="submit" class="submit" >Done</button>
+
+  </form>
+</div>
+
+</body>
+</html>

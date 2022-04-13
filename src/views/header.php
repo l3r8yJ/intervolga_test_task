@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?=$TITLE?></title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../public/styles/css/table.css">
-    <link rel="stylesheet" href="../../public/styles/css/button.css">
+    <link rel="stylesheet" href="<?=$_SERVER['HTTP_REQUEST']?>/public/styles/css/table_test.css">
+    <link rel="stylesheet" href="<?=$_SERVER['HTTP_REQUEST']?>public/styles/css/button.css">
+    <link rel="stylesheet" href="<?=$_SERVER['HTTP_REQUEST']?>public/styles/css/form.css">
   </head>
   <body>
 
