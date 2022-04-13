@@ -1,4 +1,5 @@
-<?php $TITLE = 'List of students.'
+<?php $TITLE = 'List of students.';
+include 'header.php';
 ?>
 
 <?php ob_start()?>
@@ -43,4 +44,4 @@
     </div>
     <br>
 
-<?php include 'preload.php'?>
+<?php include 'footer.php'?>
