@@ -3,18 +3,25 @@
 require $_SERVER['DOCUMENT_ROOT'] . '/src/lib/database.php';
 class StudentModel extends Database
 {
+    private $database;
+
+    public function __construct(Database $database)
+    {
+        $this->database = $database;
+    }
+
     /**
      * readAllStudents
      *
      * @return array
      */
-    public function readAllStudents()
+    public function readAllStudents(): array
     {
-        $this->openConnection();
+        $this->database->openConnection();
 
         $students = R::findAll('students');
 
-        $this->closeConnection();
+        $this->database->closeConnection();
 
         return $students;
     }
@@ -22,18 +29,18 @@ class StudentModel extends Database
     /**
      * writeStudent
      *
-     * @param entity $newStudent
+     * @param array $params
      * @return int $id last inserted id
      */
-    public function createStudent($params)
+    public function createStudent(array $params): int
     {
-        $this->openConnection();
+        $this->database->openConnection();
 
         $student = R::dispense('students');
         $this->setStudent($student, $params);
         $id = R::store($student);
 
-        $this->closeConnection();
+        $this->database->closeConnection();
 
         return $id;
     }
@@ -42,15 +49,15 @@ class StudentModel extends Database
      * readStudentById
      *
      * @param int $id
-     * @return array/entity
+     * @return array
      */
-    public function readStudentById($id)
+    public function readStudentById(int $id)
     {
-        $this->openConnection();
+        $this->database->openConnection();
 
-        $student = R::findOne('students', 'id = :id', [':id' => (int) $id]);
+        $student = R::findOne('students', 'id = :id', [':id' => $id]);
 
-        $this->closeConnection();
+        $this->database->closeConnection();
 
         return $student;
     }
@@ -59,28 +66,33 @@ class StudentModel extends Database
      * rewriteStudent
      *
      * @param int $id
-     * @param entity $newStudent
+     * @param array $params
      * @return void
      */
-    public function updateStudent($id, $newStudent)
+    public function updateStudent(int $id, array $params)
     {
-        $this->openConnection();
+        $this->database->openConnection();
 
-        $student = R::load('students', (int) $id);
-        $student = $newStudent;
+        $student = R::load('students', $id);
+        $student = $this->setStudent($student, $params);
         R::store($student);
 
-        $this->closeConnection();
+        $this->database->closeConnection();
     }
 
-    public function deleteStudent($id)
+    /**
+     * deleteStudent
+     *
+     * @param int $id
+     */
+    public function deleteStudent(int $id)
     {
-        $this->openConnection();
+        $this->database->openConnection();
 
-        $student = R::load('students', (int) $id);
+        $student = R::load('students', $id);
         R::trash($student);
 
-        $this->closeConnection();
+        $this->database->closeConnection();
     }
 
     /**
@@ -88,13 +100,15 @@ class StudentModel extends Database
      *
      * @param entity $student current student
      * @param array $params new params [:name, :surname,: birthday, :photo]
-     * @return void
+     * @return entity
      */
-    private function setStudent($student, $params)
+    private function setStudent($student, array $params)
     {
         $student->name = $params['name'];
         $student->surname = $params['surname'];
         $student->birthday = $params['birthday'];
         $student->photo = $params['photo'];
+
+        return $student;
     }
 }
