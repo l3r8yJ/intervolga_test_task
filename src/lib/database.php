@@ -1,6 +1,7 @@
 <?php
-require '../lib/rb.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
+class_alias('\RedBeanPHP\R', '\R');
 class Database
 {
     private $userName = 'root', $password = 'root', $host = '127.0.0.1', $port = '8889', $name;
