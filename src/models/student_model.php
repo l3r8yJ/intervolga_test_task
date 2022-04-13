@@ -18,6 +18,16 @@ class StudentModel
         }
     }
 
+    public function openConnection()
+    {
+        $this->database->openConnection();
+    }
+
+    public function closeConnection()
+    {
+        $this->database->closeConnection();
+    }
+
     /**
      * readAllStudents
      *
@@ -25,24 +35,30 @@ class StudentModel
      */
     public function readAllStudents()
     {
-        $this->database->openConnection();
-
-        return R::findAll('students');
-
-        $this->database->closeConnection();
+        $students = R::findAll('students');
+        return $students;
     }
 
-    public function writeStudent($params)
+    /**
+     * writeStudent
+     *
+     * @param array $params [name, surname, birthday, photo]
+     * @return void
+     */
+    public function createStudent($params)
     {
-        $this->database->openConnection();
         $student = R::dispense('students');
+        $student = $this->setStudent($student, $params);
+        R::store($student);
+    }
 
+    private function setStudent($student, $params)
+    {
         $student->name = $params['name'];
         $student->surname = $params['surname'];
         $student->birthday = $params['birthday'];
         $student->photo = $params['photo'];
 
-        R::store($student);
-        $this->database->closeConnection();
+        return $student;
     }
 }
