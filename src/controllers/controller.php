@@ -169,8 +169,7 @@ class Controller
 
             $fileTemp = $_FILES['photo']['tmp_name'];
 
-            if (move_uploaded_file($fileTemp, $targetDir . $newFileName)) {
-            } else {
+            if (!move_uploaded_file($fileTemp, $targetDir . $newFileName)) {
                 echo "File not loaded.";
             }
 
@@ -182,7 +181,6 @@ class Controller
                 echo "Error: " . $e->getMessage();
             }
 
-            header('Location: /');
         }
 
         $this->model->closeConnection();
