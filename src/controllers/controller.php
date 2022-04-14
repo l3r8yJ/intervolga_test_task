@@ -100,6 +100,7 @@ class Controller
                 $birthday = $_POST['birthday'];
                 $this->model->updateStudent($id, ['name' => $name, 'birthday' => $birthday, 'surname' => $surname, 'birthday' => $birthday]);
                 $this->model->closeConnection();
+
                 header('Location: /');
 
             } catch (Exception $e) {
