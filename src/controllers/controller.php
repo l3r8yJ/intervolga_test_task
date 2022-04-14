@@ -2,6 +2,8 @@
 require $_SERVER['DOCUMENT_ROOT'] . '/src/lib/database.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/src/models/student_model.php';
 
+// TODO: find way to get requests for controller
+
 class Controller
 {
     private $model;
@@ -49,24 +51,23 @@ class Controller
     {
         $this->model->openConnection();
 
-        if (!isset($_POST['photo'])) {
-
-            $_FILES['photo']['size'] = 0;
-            $_FILES['photo']['tmp_name'] = 'none';
-
-        } else {
-
+        if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday']) && isset($_POST['photo'])) {
             try {
 
-                $photo = $_FILES['photo']['name'];
-                $path = $_SERVER['DOCUMENT_ROOT'] . '/src/uploads/' . $photo;
-                $result = move_uploaded_file($photo, $path);
-                echo "$photo<br/>";
-                echo "$path<br/>";
-                echo $result;
+                $this->postValidate();
 
+                $id = $this->model->createStudent([
+                    'name' => $_POST['name'],
+                    'surname' => $_POST['surname'],
+                    'birthday' => $_POST['birthday'],
+                    'photo' => $_POST['photo'],
+                ]);
+
+                if (!$id) {
+                    die('Could not create student');
+                }
             } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
+                echo 'Error: ' . $e->getMessage();
             }
         }
 
@@ -88,10 +89,12 @@ class Controller
 
         if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday'])) {
 
+            $this->postValidate();
+
             try {
-                $name = htmlspecialchars($_POST['name']);
-                $surname = htmlspecialchars($_POST['surname']);
-                $birthday = htmlspecialchars($_POST['birthday']);
+                $name = $_POST['name'];
+                $surname = $_POST['surname'];
+                $birthday = $_POST['birthday'];
                 $this->model->updateStudent($id, ['name' => $name, 'birthday' => $birthday, 'surname' => $surname, 'birthday' => $birthday]);
                 $this->model->closeConnection();
                 header('Location: /');
@@ -133,16 +136,20 @@ class Controller
 
         if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday']) && isset($_POST['photo'])) {
             try {
+
+                $this->postValidate();
+
                 $id = $this->model->createStudent([
-                    'name' => htmlspecialchars($_POST['name']),
-                    'surname' => htmlspecialchars($_POST['surname']),
-                    'birthday' => htmlspecialchars($_POST['birthday']),
-                    'photo' => htmlspecialchars($_POST['photo']),
+                    'name' => $_POST['name'],
+                    'surname' => $_POST['surname'],
+                    'birthday' => $_POST['birthday'],
+                    'photo' => $_POST['photo'],
                 ]);
 
                 if (!$id) {
                     die('Could not create student');
                 }
+
             } catch (Exception $e) {
                 echo 'Error: ' . $e->getMessage();
             }
@@ -154,5 +161,51 @@ class Controller
         include $_SERVER['DOCUMENT_ROOT'] . '/src/views/create/form.php';
 
         $this->model->closeConnection();
+    }
+
+    /**
+     * validateField
+     *
+     * @param string $field
+     * @param string $type
+     * @return boolean
+     */
+    private function validateField(string $field, string $type)
+    {
+        $isName = false;
+        $isFilename = false;
+
+        // filename validating
+        if (preg_match("/^[\w,\s-]+\.[A-Za-z]{3}$/", $field)) {
+            $isFilename = true;
+
+            // name/surname validating
+        } else if (preg_match("/^([a-zA-Z' ]+)$/", $field)) {
+            $isName = true;
+        }
+
+        if ($isName && $type == 'name') {
+            return true;
+        }
+
+        if ($isFilename && $type == 'fileName') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * postValidate validate name, surname and filename from $_POST
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return void
+     */
+    private function postValidate()
+    {
+        if (!$this->validateField($_POST['name'], 'name') || !$this->validateField($_POST['surname'], 'name') || !$this->validateField($_POST['photo'], 'fileName')) {
+            throw new \InvalidArgumentException('fields are not valid');
+        }
     }
 }

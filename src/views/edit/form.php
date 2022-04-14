@@ -13,9 +13,9 @@ $currentStudent = $model->readStudentById($id);
 if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday'])) {
 
     try {
-        $name = htmlspecialchars($_POST['name']);
-        $surname = htmlspecialchars($_POST['surname']);
-        $birthday = htmlspecialchars($_POST['birthday']);
+        $name = $_POST['name'];
+        $surname = $_POST['surname'];
+        $birthday = $_POST['birthday'];
         $model->updateStudent($id, ['name' => $name, 'birthday' => $birthday, 'surname' => $surname, 'birthday' => $birthday]);
         $model->closeConnection();
         header('Location: /');
@@ -45,20 +45,20 @@ if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday'
   <form action="" method="post">
 
       <div class="input-container ic1">
-        <input id="name" name=name class="input" type="text" placeholder=" " value="<?=$currentStudent->name;?>"/>
+        <input id="name" name=name class="input" type="text" placeholder=" " value="<?=htmlspecialchars($currentStudent->name);?>"/>
         <div class="cut"></div>
         <label for="name" class="placeholder">First name</label>
       </div>
 
       <div class="input-container ic2">
-        <input id="surname" name="surname" class="input" type="text" placeholder=" " value="<?=$currentStudent->surname;?>" />
+        <input id="surname" name="surname" class="input" type="text" placeholder=" " value="<?=htmlspecialchars($currentStudent->surname);?>" />
         <div class="cut"></div>
         <label for="surname" class="placeholder">Last name</label>
       </div>
 
     <div class="cut"></div>
     <div class="subtitle">Birthday:</div>
-    <input type="date" name="birthday" class="datepicker-input" value="<?=$currentStudent->birthday;?>">
+    <input type="date" name="birthday" class="datepicker-input" value="<?=htmlspecialchars($currentStudent->birthday);?>">
 
     <div class="subtitle">Photo</div>
     <input type="file" name="photo">
