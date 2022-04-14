@@ -9,10 +9,10 @@ $model->openConnection();
 if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday']) && isset($_POST['photo'])) {
     try {
         $id = $model->createStudent([
-            'name' => htmlspecialchars($_POST['name']),
-            'surname' => htmlspecialchars($_POST['surname']),
-            'birthday' => htmlspecialchars($_POST['birthday']),
-            'photo' => htmlspecialchars($_POST['photo']),
+            'name' => $_POST['name'],
+            'surname' => $_POST['surname'],
+            'birthday' => $_POST['birthday'],
+            'photo' => $_POST['photo'],
         ]);
 
         if (!$id) {
