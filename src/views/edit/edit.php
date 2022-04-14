@@ -40,7 +40,7 @@ $currentStudent = $_SESSION['currentStudent'];
     <div class="subtitle">Photo</div>
     <input type="file" name="photo">
     <br>
-    <button type="submit" class="submit" >Done</button>
+    <button type="submit" class="submit" >Save</button>
 
   </form>
 </div>
