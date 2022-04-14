@@ -50,6 +50,7 @@ class Controller
         $this->model->openConnection();
 
         if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday']) && isset($_POST['photo'])) {
+
             try {
 
                 $this->postValidate();
@@ -90,9 +91,10 @@ class Controller
 
         if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday'])) {
 
-            $this->postValidate();
-
             try {
+
+                $this->postValidate();
+
                 $name = $_POST['name'];
                 $surname = $_POST['surname'];
                 $birthday = $_POST['birthday'];
