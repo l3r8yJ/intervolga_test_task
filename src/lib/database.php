@@ -9,7 +9,7 @@ class Database
     /**
      * __construct
      *
-     * @param string $name name of database to connect
+     * @param string $name name of database
      */
     public function __construct(string $name)
     {
