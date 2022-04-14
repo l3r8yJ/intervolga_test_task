@@ -8,13 +8,9 @@ class StudentModel
      *
      * @param Database $database
      */
-    public function __construct($database)
+    public function __construct(Database $database)
     {
-        if ($database instanceof Database) {
-            $this->database = $database;
-        } else {
-            throw new InvalidArgumentException();
-        }
+        $this->database = $database;
     }
 
     /**
@@ -45,6 +41,7 @@ class StudentModel
     public function readAllStudents()
     {
         $students = R::findAll('students');
+
         return $students;
     }
 
@@ -106,6 +103,22 @@ class StudentModel
         R::store($student);
     }
 
+/**
+ * addImageToStudent
+ *
+ * @param int $id
+ * @param string $photo filename
+ * @return void
+ */
+    public function addImageToStudent(int $id, string $photo)
+    {
+        $student = R::findOne('students', 'id = ?', [$id]);
+
+        $student->photo = $photo;
+
+        R::store($student);
+    }
+
     /**
      * setStudent
      *
@@ -118,7 +131,6 @@ class StudentModel
         $student->name = $params['name'];
         $student->surname = $params['surname'];
         $student->birthday = $params['birthday'];
-        $student->photo = $params['photo'];
 
         return $student;
     }

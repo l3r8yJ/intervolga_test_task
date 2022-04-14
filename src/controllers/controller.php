@@ -17,7 +17,7 @@ class Controller
     }
 
     /**
-     * handle
+     * handle main "process"
      *
      * @param string $request
      * @return void
@@ -34,6 +34,9 @@ class Controller
             case 'delete':
                 $this->delete();
                 break;
+            case 'add_photo':
+                $this->addPhoto();
+                break;
             default:
                 $this->read();
                 break;
@@ -49,22 +52,17 @@ class Controller
     {
         $this->model->openConnection();
 
-        if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday']) && isset($_POST['photo'])) {
+        if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday'])) {
 
             try {
 
                 $this->postValidate();
 
-                $id = $this->model->createStudent([
+                $this->model->createStudent([
                     'name' => $_POST['name'],
                     'surname' => $_POST['surname'],
                     'birthday' => $_POST['birthday'],
-                    'photo' => $_POST['photo'],
                 ]);
-
-                if (!$id) {
-                    die('Could not create student');
-                }
 
                 header('Location: /');
 
@@ -85,7 +83,8 @@ class Controller
     {
         $this->model->openConnection();
 
-        $id = (int) $_GET['id'];
+        $id = $_GET['id'];
+
         $currentStudent = $this->model->readStudentById($id);
         $_SESSION['currentStudent'] = $currentStudent;
 
@@ -98,7 +97,9 @@ class Controller
                 $name = $_POST['name'];
                 $surname = $_POST['surname'];
                 $birthday = $_POST['birthday'];
+
                 $this->model->updateStudent($id, ['name' => $name, 'birthday' => $birthday, 'surname' => $surname, 'birthday' => $birthday]);
+
                 $this->model->closeConnection();
 
                 header('Location: /');
@@ -146,6 +147,48 @@ class Controller
     }
 
     /**
+     * addPhoto
+     *
+     * @return void
+     */
+    private function addPhoto()
+    {
+        $this->model->openConnection();
+
+        $id = $_GET['id'];
+
+        if (isset($_POST['submit'])) {
+
+            $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
+
+            $fileName = $_FILES['photo']['name'];
+
+            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+
+            $newFileName = md5($id) . '.' . $ext;
+
+            $fileTemp = $_FILES['photo']['tmp_name'];
+
+            if (move_uploaded_file($fileTemp, $targetDir . $newFileName)) {
+            } else {
+                echo "File not loaded.";
+            }
+
+            try {
+
+                $this->model->addImageToStudent($id, $newFileName);
+
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+
+            header('Location: /');
+        }
+
+        $this->model->closeConnection();
+    }
+
+    /**
      * validateField
      *
      * @param string $field
@@ -186,7 +229,7 @@ class Controller
      */
     private function postValidate()
     {
-        if (!$this->validateField($_POST['name'], 'name') || !$this->validateField($_POST['surname'], 'name') || !$this->validateField($_POST['photo'], 'fileName')) {
+        if (!$this->validateField($_POST['name'], 'name') || !$this->validateField($_POST['surname'], 'name')) {
             throw new \InvalidArgumentException('fields are not valid');
         }
     }
