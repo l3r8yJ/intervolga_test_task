@@ -10,12 +10,22 @@
 
         <?php foreach ($list as $student): ?>
         <tr>
-        <th><?=$student['id']?></th>
-        <th><?=$student['name']?></th>
-        <th><?=$student['surname']?></th>
-        <th><?=$student['birthday']?></th>
-        <th><a href="<?=$_SERVER['HTTP_REQUEST'] . '/src/views/'?>edit/form.php?id=<?=$student['id']?>">Edit</a></th>
-        <th><a href="<?=$_SERVER['HTTP_REQUEST'] . '/src/views/'?>delete/delete.php?id=<?=$student['id']?>">Delete</a></th>
+        <th><?=htmlspecialchars($student['id']);?></th>
+        <th><?=htmlspecialchars($student['name']);?></th>
+        <th><?=htmlspecialchars($student['surname']);?></th>
+        <th><?=htmlspecialchars($student['birthday']);?></th>
+
+        <th style="width: 10%;">
+            <a href="<?=$_SERVER['HTTP_REQUEST'] . '/src/views/'?>edit/form.php?id=<?=$student['id']?>">
+                <img src="<?=$_SERVER['HTTP_REQUEST']?>/public/images/edit.png" alt="" style="width: 30%;">
+            </a>
+        </th>
+
+        <th style="width: 10%;">
+            <a href="<?=$_SERVER['HTTP_REQUEST'] . '/src/views/'?>delete/delete.php?id=<?=$student['id']?>">
+                <img src="<?=$_SERVER['HTTP_REQUEST']?>/public/images/delete.png" alt="" style="width: 30%;">
+            </a>
+        </th>
         </tr>
         <?php endforeach;?>
 
