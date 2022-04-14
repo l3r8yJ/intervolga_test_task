@@ -18,7 +18,6 @@ if (!isset($_POST['photo'])) {
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
-
 }
 ?>
 

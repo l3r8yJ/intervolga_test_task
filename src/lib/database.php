@@ -16,11 +16,21 @@ class Database
         $this->name = $name;
     }
 
+    /**
+     * openConnection
+     *
+     * @return void
+     */
     public function openConnection()
     {
         R::setup("mysql:host=$this->host;port=$this->port;dbname=$this->name", $this->userName, $this->password);
     }
 
+    /**
+     * closeConnection
+     *
+     * @return void
+     */
     public function closeConnection()
     {
         R::close();

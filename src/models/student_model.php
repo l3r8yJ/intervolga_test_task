@@ -1,5 +1,4 @@
 <?php
-
 class StudentModel
 {
     private $database;
@@ -102,7 +101,7 @@ class StudentModel
      *
      * @param Object|array $student
      * @param array $params
-     * @return void
+     * @return mixed
      */
     private function setStudent($student, array $params)
     {
