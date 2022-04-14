@@ -37,9 +37,6 @@ $currentStudent = $_SESSION['currentStudent'];
     <div class="subtitle">Birthday:</div>
     <input type="date" name="birthday" class="datepicker-input" value="<?=htmlspecialchars($currentStudent->birthday);?>">
 
-    <div class="subtitle">Photo</div>
-    <input type="file" name="photo">
-    <br>
     <button type="submit" class="submit" >Save</button>
 
   </form>
