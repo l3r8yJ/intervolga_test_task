@@ -1,5 +1,4 @@
 <?php
-
 class StudentModel
 {
     private $database;
@@ -56,13 +55,15 @@ class StudentModel
      * writeStudent
      *
      * @param array $params [name, surname, birthday, photo]
-     * @return void
+     * @return int
      */
     public function createStudent(array $params)
     {
         $student = R::dispense('students');
         $student = $this->setStudent($student, $params);
-        R::store($student);
+        $id = R::store($student);
+
+        return $id;
     }
 
     /**
@@ -100,7 +101,7 @@ class StudentModel
      *
      * @param Object|array $student
      * @param array $params
-     * @return void
+     * @return mixed
      */
     private function setStudent($student, array $params)
     {
