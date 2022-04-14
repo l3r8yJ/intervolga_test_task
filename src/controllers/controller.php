@@ -159,31 +159,21 @@ class Controller
 
         if (isset($_POST['submit'])) {
 
-            $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
-
-            $fileName = $_FILES['photo']['name'];
-
-            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-
-            $newFileName = md5($id) . '.' . $ext;
-
-            $fileTemp = $_FILES['photo']['tmp_name'];
-
-            if (!move_uploaded_file($fileTemp, $targetDir . $newFileName)) {
-                echo "File not loaded.";
-            }
-
             try {
 
-                $this->model->addImageToStudent($id, $newFileName);
+                $this->imageValidate();
+
+                $this->linkPhotoAndStudent($id);
+
+                $this->model->closeConnection();
+
+                header('Location: / ');
 
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
-
         }
 
-        $this->model->closeConnection();
     }
 
     /**
@@ -230,5 +220,49 @@ class Controller
         if (!$this->validateField($_POST['name'], 'name') || !$this->validateField($_POST['surname'], 'name')) {
             throw new \InvalidArgumentException('fields are not valid');
         }
+    }
+
+    /**
+     * imageValidate
+     *
+     * @return void
+     */
+    private function imageValidate()
+    {
+        $mimetype = mime_content_type($_FILES['photo']['tmp_name']);
+
+        if (!in_array($mimetype, array('image/jpeg', 'image/gif', 'image/png'))) {
+            throw new \InvalidArgumentException('File are not image.');
+        }
+    }
+
+    /**
+     * linkPhotoAndUser
+     *
+     * @param integer $id
+     * @throws InvalidArgumentException
+     * @return void
+     */
+    private function linkPhotoAndStudent(int $id)
+    {
+        $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
+
+        $fileName = $_FILES['photo']['name'];
+
+        $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+
+        $newFileName = md5($id) . '.' . $ext;
+
+        if (file_exists($targetDir . $newFileName)) {
+            unlink($targetDir . $newFileName);
+        }
+
+        $fileTemp = $_FILES['photo']['tmp_name'];
+
+        if (!move_uploaded_file($fileTemp, $targetDir . $newFileName)) {
+            echo "File not loaded.";
+        }
+
+        $this->model->addImageToStudent($id, $newFileName);
     }
 }
