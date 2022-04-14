@@ -7,7 +7,6 @@
         <th>Surname</th>
         <th>Birthday</th>
         </tr>
-
         <?php foreach ($list as $student): ?>
         <tr>
         <th><?=htmlspecialchars($student['id']);?></th>
@@ -16,7 +15,7 @@
         <th><?=htmlspecialchars($student['birthday']);?></th>
 
         <th style="width: 10%;">
-            <a href="<?=$_SERVER['HTTP_REQUEST'] . '/src/views/'?>edit/form.php?id=<?=$student['id']?>">
+            <a href="<?=$_SERVER['HTTP_REQUEST'] . '/src/views/'?>edit/edit.php?id=<?=$student['id']?>">
                 <img src="<?=$_SERVER['HTTP_REQUEST']?>/public/images/edit.png" alt="" style="width: 30%;">
             </a>
         </th>
@@ -28,9 +27,12 @@
         </th>
         </tr>
         <?php endforeach;?>
-
+        <th width="200">
+            <a href="<?=$_SERVER['HTTP_REQUEST']?>/src/views/create/create.php">
+                <button>Add new</button>
+            </a>
+        </th>
     </table>
 </div>
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/src/views/footer.php';
 ?>

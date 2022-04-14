@@ -1,29 +1,6 @@
 <?php
-
-require '../../models/student_model.php';
-require '../../lib/database.php';
-
-$model = new StudentModel(new Database('test_task'));
-$model->openConnection();
-
-$id = (int) $_GET['id'];
-
-$currentStudent = $model->readStudentById($id);
-
-if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday'])) {
-
-    try {
-        $name = $_POST['name'];
-        $surname = $_POST['surname'];
-        $birthday = $_POST['birthday'];
-        $model->updateStudent($id, ['name' => $name, 'birthday' => $birthday, 'surname' => $surname, 'birthday' => $birthday]);
-        $model->closeConnection();
-        header('Location: /');
-
-    } catch (Exception $e) {
-        echo 'Error updating student: ' . $e->getMessage();
-    }
-}
+include $_SERVER['DOCUMENT_ROOT'] . '/index.php';
+$currentStudent = $_SESSION['currentStudent'];
 ?>
 
 <!DOCTYPE html>

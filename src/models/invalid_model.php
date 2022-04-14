@@ -1,4 +1,9 @@
 <?php
+
+/**
+ *  Model class was created for no-ORM realization, now it useless.
+ *
+ */
 class Model
 {
     private $database;

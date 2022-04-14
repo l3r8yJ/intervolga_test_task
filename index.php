@@ -1,32 +1,14 @@
 <?php
 
-require $_SERVER['DOCUMENT_ROOT'] . '/src/lib/database.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/src/models/student_model.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/src/controllers/controller.php';
 
-$model = new StudentModel(new Database('test_task'));
-$model->openConnection();
+$controller = new Controller(
+    new StudentModel(
+        new Database('test_task')
+    )
+);
 
-if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday']) && isset($_POST['photo'])) {
-    try {
-        $id = $model->createStudent([
-            'name' => $_POST['name'],
-            'surname' => $_POST['surname'],
-            'birthday' => $_POST['birthday'],
-            'photo' => $_POST['photo'],
-        ]);
+$request = str_replace('.php', '', basename($_SERVER['PHP_SELF']));
+$request = trim($request, '/');
 
-        if (!$id) {
-            die('Could not create student');
-        }
-    } catch (Exception $e) {
-        echo 'Error: ' . $e->getMessage();
-    }
-}
-
-$_POST['model'] = $model;
-$list = $model->readAllStudents();
-
-include $_SERVER['DOCUMENT_ROOT'] . '/src/views/header.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/src/views/create/form.php';
-
-$model->closeConnection();
+$controller->handle($request);

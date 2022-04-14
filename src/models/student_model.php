@@ -17,11 +17,21 @@ class StudentModel
         }
     }
 
+    /**
+     * openConnection
+     *
+     * @return void
+     */
     public function openConnection()
     {
         $this->database->openConnection();
     }
 
+    /**
+     * closeConnection
+     *
+     * @return void
+     */
     public function closeConnection()
     {
         $this->database->closeConnection();

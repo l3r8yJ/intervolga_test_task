@@ -2,8 +2,6 @@
 require $_SERVER['DOCUMENT_ROOT'] . '/src/lib/database.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/src/models/student_model.php';
 
-// TODO: find way to get requests for controller
-
 class Controller
 {
     private $model;
@@ -30,8 +28,8 @@ class Controller
             case 'create':
                 $this->create();
                 break;
-            case 'update':
-                $this->update();
+            case 'edit':
+                $this->edit();
                 break;
             case 'delete':
                 $this->delete();
@@ -66,6 +64,9 @@ class Controller
                 if (!$id) {
                     die('Could not create student');
                 }
+
+                header('Location: /');
+
             } catch (Exception $e) {
                 echo 'Error: ' . $e->getMessage();
             }
@@ -79,13 +80,13 @@ class Controller
      *
      * @return void
      */
-    private function update()
+    private function edit()
     {
         $this->model->openConnection();
 
         $id = (int) $_GET['id'];
-
         $currentStudent = $this->model->readStudentById($id);
+        $_SESSION['currentStudent'] = $currentStudent;
 
         if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday'])) {
 
@@ -103,8 +104,6 @@ class Controller
                 echo 'Error updating student: ' . $e->getMessage();
             }
         }
-
-        include $_SERVER['DOCUMENT_ROOT'] . '/src/views/edit/form.php';
     }
 
     /**
@@ -134,31 +133,11 @@ class Controller
     {
         $this->model->openConnection();
 
-        if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['birthday']) && isset($_POST['photo'])) {
-            try {
-
-                $this->postValidate();
-
-                $id = $this->model->createStudent([
-                    'name' => $_POST['name'],
-                    'surname' => $_POST['surname'],
-                    'birthday' => $_POST['birthday'],
-                    'photo' => $_POST['photo'],
-                ]);
-
-                if (!$id) {
-                    die('Could not create student');
-                }
-
-            } catch (Exception $e) {
-                echo 'Error: ' . $e->getMessage();
-            }
-        }
-
         $list = $this->model->readAllStudents();
 
         include $_SERVER['DOCUMENT_ROOT'] . '/src/views/header.php';
-        include $_SERVER['DOCUMENT_ROOT'] . '/src/views/create/form.php';
+        include $_SERVER['DOCUMENT_ROOT'] . '/src/views/list.php';
+        include $_SERVER['DOCUMENT_ROOT'] . '/src/views/footer.php';
 
         $this->model->closeConnection();
     }
