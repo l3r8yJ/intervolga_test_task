@@ -37,7 +37,7 @@
         <?php endforeach;?>
         <th width="200">
             <a href="<?=$_SERVER['HTTP_REQUEST']?>/src/views/create/create.php">
-                <button>Add new</button>
+                <button class="submit">Add new</button>
             </a>
         </th>
     </table>
