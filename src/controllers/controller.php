@@ -64,14 +64,14 @@ class Controller
                     'birthday' => $_POST['birthday'],
                 ]);
 
+                $this->model->closeConnection();
+
                 header('Location: /');
 
             } catch (Exception $e) {
                 echo 'Error: ' . $e->getMessage();
             }
         }
-
-        $this->model->closeConnection();
     }
 
     /**
