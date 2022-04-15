@@ -22,7 +22,8 @@ h2 {
 /* Table Styles */
 .table-wrapper {
   margin: 10px 70px 70px;
-  box-shadow: 0px 35px 50px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 35px 50px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 35px 50px rgba(0, 0, 0, 0.2);
 }
 
 .fl-table {
@@ -68,7 +69,6 @@ h2 {
     display: block;
     width: 100%;
   }
-
   .table-wrapper:before {
     content: "Scroll horizontally >";
     display: block;
@@ -77,68 +77,58 @@ h2 {
     color: white;
     padding: 0 0 10px;
   }
-
   .fl-table thead,
-.fl-table tbody,
-.fl-table thead th {
+  .fl-table tbody,
+  .fl-table thead th {
     display: block;
   }
-
   .fl-table thead th:last-child {
     border-bottom: none;
   }
-
   .fl-table thead {
     float: left;
   }
-
   .fl-table tbody {
     width: auto;
     position: relative;
     overflow-x: auto;
   }
-
   .fl-table td,
-.fl-table th {
+  .fl-table th {
     padding: 20px 0.625em 0.625em 0.625em;
     height: 60px;
     vertical-align: middle;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
     width: 120px;
     font-size: 13px;
     text-overflow: ellipsis;
   }
-
   .fl-table thead th {
     text-align: left;
     border-bottom: 1px solid #f7f7f9;
   }
-
   .fl-table tbody tr {
     display: table-cell;
   }
-
   .fl-table tbody tr:nth-child(odd) {
     background: none;
   }
-
   .fl-table tr:nth-child(even) {
     background: transparent;
   }
-
   .fl-table tr td:nth-child(odd) {
     background: #f8f8f8;
     border-right: 1px solid #e6e4e4;
   }
-
   .fl-table tr td:nth-child(even) {
     border-right: 1px solid #e6e4e4;
   }
-
   .fl-table tbody td {
     display: block;
     text-align: center;
   }
 }
+/*# sourceMappingURL=table_test.css.map */

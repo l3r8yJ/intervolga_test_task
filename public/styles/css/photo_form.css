@@ -1,0 +1,85 @@
+html {
+  height: 100%;
+}
+
+body {
+  background-color: #2590eb;
+  height: 100%;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.wrapper .file-upload {
+  height: 200px;
+  width: 200px;
+  border-radius: 100px;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: 4px solid #ffffff;
+  overflow: hidden;
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(50%, #2590eb),
+    color-stop(50%, #ffffff)
+  );
+  background-image: linear-gradient(to bottom, #2590eb 50%, #ffffff 50%);
+  background-size: 100% 200%;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+  color: #ffffff;
+  font-size: 100px;
+}
+
+.wrapper .file-upload input[type="file"] {
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.wrapper .file-upload:hover {
+  background-position: 0 -100%;
+  color: #2590eb;
+}
+/*# sourceMappingURL=photo_form.css.map */
+
+.submit {
+  background-color: rgb(1, 72, 116);
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  cursor: pointer;
+  font-size: 18px;
+  height: 50px;
+  margin-top: 38px;
+  text-align: center;
+  width: 40%;
+  left: 30%;
+  position: relative;
+}
